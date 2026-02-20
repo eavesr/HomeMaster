@@ -1,10 +1,11 @@
 {
   "name": "HomeMaster",
-  "author": "Nikita Maslov(maslomeister), Travis Lane (Tormak)",
+  "author": "Richard Eaves (eavesr), Nikita Maslov(maslomeister), Travis Lane (Tormak)",
   "flags": [],
+  "api_version": 1,
   "publish": {
     "tags": ["Customization", "Home"],
-    "description": "Replace your Home page with any Steam collection",
-    "image": "https://raw.githubusercontent.com/maslomeister/HomeMaster/main/assets/thumbnail2.png"
+    "description": "Replace the home screen with any Steam collection",
+    "image": "https://raw.githubusercontent.com/eavesr/HomeMaster/main/assets/thumbnail2.png"
   }
 }

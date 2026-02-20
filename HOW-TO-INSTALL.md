@@ -1,7 +1,7 @@
 # How to install plugin manually
 
 1. [Install decky loader plugin](https://github.com/SteamDeckHomebrew/decky-loader#installation)
-2. Go to Desktop mode of your steam deck and download latest release of the plugin from [Releases](https://github.com/maslomeister/HomeMaster/releases)
+2. Go to Desktop mode of your steam deck and download latest release of the plugin from [Releases](https://github.com/eavesr/HomeMaster/releases)
 3. After installation, open quick access menu by pressing `...` button on you deck and go to decky
 4. Go to ⚙️ **_Settings_**, then **_General_**. Scroll down to **_OTHER_** and enable **_Developer mode_**
 5. After that you'll see 2 new options appear on the left side of screen, go to **_Developer_** tab.
