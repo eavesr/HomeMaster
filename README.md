@@ -11,6 +11,8 @@
 
 HomeMaster is a plugin for Decky Loader which allows the user to select a 'Collection' of games from their Steam Library to be used as the list for the home screen.
 
+**AI Disclosure: I use Claude Code to assist me in making changes to this plugin.
+
 # Features
 
 Features include:<br/>
