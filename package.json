@@ -1,7 +1,7 @@
 {
   "name": "homemaster",
-  "version": "1.0.0",
-  "description": "Replace your steam deck Home page with any Steam collection",
+  "version": "1.0.1",
+  "description": "Replace your Steam Deck home screen with any Steam collection",
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/maslomeister/HomeMaster.git"
+    "url": "git+https://github.com/eavesr/HomeMaster.git"
   },
   "keywords": [
     "decky",
@@ -27,13 +27,17 @@
     {
       "name": "Nikita Maslov (maslomeister)",
       "email": "maslomeister@gmail.com"
+    },
+    {
+      "name": "Richard Eaves (eavesr)",
+      "email": "eavesr@proton.me"
     }
   ],
   "license": "GPL-3",
   "bugs": {
-    "url": "https://github.com/maslomeister/HomeMaster/issues"
+    "url": "https://github.com/eavesr/HomeMaster/issues"
   },
-  "homepage": "https://github.com/maslomeister/HomeMaster#readme",
+  "homepage": "https://github.com/eavesr/HomeMaster#readme",
   "devDependencies": {
     "@decky/rollup": "^1.0.0",
     "@rollup/rollup-linux-x64-musl": "^4.21.0",
