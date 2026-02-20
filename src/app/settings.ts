@@ -27,6 +27,7 @@ export interface HomeMasterSettings {
 }
 
 let HOME_MASTER_SETTINGS_KEY = "decky-home-master";
+let GAME_CACHE_KEY = "decky-home-master-game-cache";
 export let DEFAULTS: HomeMasterSettings = {
   showPatchedHome: false,
   hideCollectionName: false,
@@ -56,5 +57,22 @@ export class Settings {
 
   async save(data: HomeMasterSettings) {
     await SteamClient.Storage.SetObject(HOME_MASTER_SETTINGS_KEY, data);
+  }
+
+  async saveGameCache(gameIds: number[]): Promise<void> {
+    await SteamClient.Storage.SetObject(GAME_CACHE_KEY, gameIds);
+  }
+
+  async getGameCache(): Promise<number[]> {
+    try {
+      const cached = await SteamClient.Storage.GetJSON(GAME_CACHE_KEY);
+      if (cached == undefined) {
+        return [];
+      }
+      return JSON.parse(cached) as number[];
+    } catch (e) {
+      logger.error("Failed to read game cache:", e);
+      return [];
+    }
   }
 }
