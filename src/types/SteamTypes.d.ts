@@ -1,5 +1,16 @@
 type AppId = number
 
+interface SteamAppOverview {
+  appid: number;
+  display_name: string;
+  app_type: number;
+  minutes_playtime_forever: number;
+  rt_last_time_played_or_installed: number;
+  rt_last_time_locally_played: number | undefined;
+  rt_steam_release_date: number;
+  rt_purchased_time: number | undefined;
+}
+
 interface SteamClient {
   Apps: Apps,
   Browser: any,

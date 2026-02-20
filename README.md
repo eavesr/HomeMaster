@@ -1,39 +1,33 @@
-# Reasoning behind archiving
-
-This plugin is insanely simple in its core, but the underlying patching of home screen is kind of complex, constantly breaks, combine it with steam client updates and decky updates and this plugin is a nightmare to maintain for a result that barely noticeable. I don't have enough time nor do i care this much about the home screen of my deck to continue to maintain this plugin. Feel free to clone it and fix it if you would like to continue using it.
-
-# Home Master
+# HomeMaster
 
 <p float="left">
 <img src="https://github.com/maslomeister/HomeMaster/blob/main/assets/thumbnail.jpg?raw=true" width="600" />
 <img src="https://github.com/maslomeister/HomeMaster/blob/main/assets/thumbnail2.jpg?raw=true" width="300" />
 </p>
 
-A plugin for customizing the home page on the Steam Deck.
-
 <!-- ![Main View](./assets/thumbnail.png) -->
 
 # Overview
 
-Home Master allows you to customize the steam homepage.
+HomeMaster is a plugin for Decky Loader (a project which allows you to install plugins on the Steam Deck) which allows the user to select a 'Collection' of games from their Steam Library which will be used as the list for the home screen.
 
 # Features
 
-Features Include:<br/>
+Features include:<br/>
 
-- Set any steam collection as your Home page
+- Set any Steam collection as your home page
 - Show/Hide collection name
-- Interactivaly modify your Home screen by making changes to collection inside of Library menu
+- Modify your Home screen by making changes to collection inside of Library menu
   
 # Using the plugin
 
-Once you have installed Home Master, open it in the Quick Access Menu (QAM)!
+Once you have installed HomeMaster, open the configuration in the Quick Access Menu (QAM).
 
 # Installation
 
-[Here](HOW-TO-INSTALL.md) you wil find small instruction
+[Installation instructions here](HOW-TO-INSTALL.md)
 
-To uninstall the plugin, uninstall it using Decky and then restart Steam client
+Uninstall the plugin via Decky and then restart Steam client
 
 # Contributing
 
@@ -44,6 +38,7 @@ If you're interested in fixing a bug, submitting a new feature, or just helping 
 - This program is licensed under the [GNU General Public License Version 3](https://www.gnu.org/licenses/#GPL) and [BSD 3-Clause License](https://opensource.org/license/bsd-3-clause/) <br/>
 - Additionally, please provide appropriate credit for code usage
 
-Copyright Nikita Maslov (maslomeister)
 
-Intial idea, protype and patching method by [Tormak9970](https://github.com/Tormak9970)
+This plugin was forked from [original work](https://github.com/maslomeister/HomeMaster) copyright Nikita Maslov (maslomeister)
+
+Intial idea, prototype and patching method by [Tormak9970](https://github.com/Tormak9970)
