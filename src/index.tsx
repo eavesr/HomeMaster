@@ -1,9 +1,6 @@
-import {
-  definePlugin,
-  LifetimeNotification,
-  RoutePatch,
-  ServerAPI,
-} from "decky-frontend-lib";
+//import {
+//  LifetimeNotification,
+//} from "@decky/api";
 import { TbLayoutNavbarExpand } from "react-icons/tb";
 
 import { Settings } from "./app/settings";
@@ -29,16 +26,34 @@ export default definePlugin(() => {
   const settings = new Settings();
   const backend = new Backend(settings);
 
-  settings.get().then((currentSettings) => {
-    backend.LoadSettings(currentSettings);
+  settings.get().then(async (currentSettings) => {
+    backend.currentSettings = currentSettings;
+    backend.SetCache(null);
+
+    const loadedFromLive = backend.LoadGamesFromCollection();
+    if (!loadedFromLive) {
+      logger.info("Collection not ready on boot, falling back to persistent cache");
+      await backend.TryLoadFromPersistentCache();
+    }
+
     homePatch = patchHome(backend);
   });
 
   const AppOverviewChangesRegistration =
     SteamClient.Apps.RegisterForAppOverviewChanges(() => {
-      if (backend.IsCollectionChanged()) {
+      const wasUsingCachedGames = backend.IsUsingCachedGames();
+      if (wasUsingCachedGames || backend.IsCollectionChanged()) {
         backend.SetCache(null);
-        backend.LoadGamesFromCollection();
+        const loadedFromLive = backend.LoadGamesFromCollection();
+        if (loadedFromLive && wasUsingCachedGames) {
+          // Transition from boot cache to live data – refresh the home screen
+          logger.info("Live collection now available, refreshing home screen");
+          try {
+            (window as any).Navigation?.Navigate("/library/home");
+          } catch (e) {
+            logger.error("Failed to navigate to home after boot refresh:", e);
+          }
+        }
       }
     });
 
@@ -71,9 +86,6 @@ export default definePlugin(() => {
     onDismount: () => {
       routerHook.removePatch("/library/home", homePatch);
       AppOverviewChangesRegistration.unregister();
-      serverAPI.routerHook.removePatch("/library/home", homePatch);
-      // There's no unregister on RegisterForAppOverviewChanges, not sure how to properly handle this
-      // AppOverviewChangesRegistration.unregister();
       GameStartedOrStoppedRegistration.unregister();
     },
   };

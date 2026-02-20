@@ -1,5 +1,8 @@
-import { Router, sleep } from "decky-frontend-lib";
 import { Game } from "./types/types";
+
+declare let Router: { MainRunningApp: SteamAppOverview | null };
+
+const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 export function compareDateToNow(isoDateString: string): string {
   const inputDate = new Date(isoDateString);
@@ -134,7 +137,7 @@ export async function awaitGameInfo(): Promise<Game> {
 function fetchGameInfo(): Game | null {
   if (Router.MainRunningApp != null) {
     return {
-      id: Router.MainRunningApp.appid,
+      id: Router.MainRunningApp.appid.toString(),
       name: Router.MainRunningApp.display_name,
     } as Game;
   } else {

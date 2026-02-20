@@ -1,7 +1,5 @@
 // Types for SteamClient.Apps
 
-import { LifetimeNotification } from "decky-frontend-lib";
-
 type Apps = {
   GetStoreTagLocalization: (tags: number[]) => Promise<TagResponse[]>;
 

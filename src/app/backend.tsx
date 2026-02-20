@@ -12,19 +12,13 @@ import { logger } from "../utils";
 export class Backend {
   public settings: Settings;
   public currentSettings: HomeMasterSettings = DEFAULTS;
-  private games: Number[];
+  private games: number[] = [];
   private cache: any = null;
-  private collectionCachedLength: Number;
+  private collectionCachedLength: number = 0;
+  private usingCachedGames: boolean = false;
 
   constructor(settings: Settings) {
     this.settings = settings;
-    this.games = collectionStore.recentAppCollections[0].allApps
-      .filter((app) => app.app_type === 1)
-      .sort(this.getSortFunction())
-      .map((app) => app.appid)
-      .slice(0, 20);
-    this.collectionCachedLength =
-      collectionStore.recentAppCollections[0].allApps.length;
   }
 
   public LoadSettings(newSettings: HomeMasterSettings) {
@@ -51,27 +45,66 @@ export class Backend {
     });
   }
 
-  public LoadGamesFromCollection() {
-    if (this.currentSettings.collectionData.collectionId) {
-      this.games = collectionStore
-        .GetCollection(this.currentSettings.collectionData.collectionId)
-        .allApps.sort(this.getSortFunction())
-        .map((app) => app.appid)
-        .slice(0, 20);
+  /**
+   * Attempts to load games from the live collectionStore.
+   * Returns true on success, false if the collection is not yet available (e.g. on boot).
+   * On success the game IDs are persisted to storage for next boot.
+   */
+  public LoadGamesFromCollection(): boolean {
+    try {
+      if (this.currentSettings.collectionData.collectionId) {
+        const collection = collectionStore.GetCollection(
+          this.currentSettings.collectionData.collectionId
+        );
+        this.games = collection.allApps
+          .sort(this.getSortFunction())
+          .map((app) => app.appid)
+          .slice(0, 20);
 
-      this.collectionCachedLength = collectionStore.GetCollection(
-        this.currentSettings.collectionData.collectionId
-      ).allApps.length;
-    } else {
-      this.games = collectionStore.recentAppCollections[0].allApps
-        .filter((app) => app.app_type === 1)
-        .sort(this.getSortFunction())
-        .map((app) => app.appid)
-        .slice(0, 20);
+        this.collectionCachedLength = collection.allApps.length;
+      } else {
+        const recentApps = collectionStore.recentAppCollections[0].allApps;
+        this.games = recentApps
+          .filter((app) => app.app_type === 1)
+          .sort(this.getSortFunction())
+          .map((app) => app.appid)
+          .slice(0, 20);
 
-      this.collectionCachedLength =
-        collectionStore.recentAppCollections[0].allApps.length;
+        this.collectionCachedLength = recentApps.length;
+      }
+
+      this.usingCachedGames = false;
+      // Persist the freshly loaded game IDs for the next boot (fire-and-forget)
+      this.settings.saveGameCache(this.games);
+      return true;
+    } catch (e) {
+      logger.error(
+        "Failed to load games from collection, it may not be ready yet:",
+        e
+      );
+      return false;
     }
+  }
+
+  /**
+   * Loads game IDs from the persistent storage cache written on the previous session.
+   * Should only be called as a fallback when LoadGamesFromCollection fails.
+   */
+  public async TryLoadFromPersistentCache(): Promise<void> {
+    const cachedGames = await this.settings.getGameCache();
+    if (cachedGames.length > 0) {
+      this.games = cachedGames;
+      this.usingCachedGames = true;
+      logger.info(
+        "Collection not ready on boot – loaded",
+        cachedGames.length,
+        "games from persistent cache"
+      );
+    }
+  }
+
+  public IsUsingCachedGames(): boolean {
+    return this.usingCachedGames;
   }
 
   public GetGames() {
@@ -94,31 +127,30 @@ export class Backend {
     return this.cache;
   }
 
-  public IsCollectionChanged() {
-    if (this.currentSettings.collectionData.collectionId === "") {
-      if (
-        this.collectionCachedLength !==
-        collectionStore.recentAppCollections[0].allApps.length
-      ) {
-        this.collectionCachedLength =
-          collectionStore.recentAppCollections[0].allApps.length;
+  public IsCollectionChanged(): boolean {
+    try {
+      if (this.currentSettings.collectionData.collectionId === "") {
+        const currentLength =
+          collectionStore.recentAppCollections[0]?.allApps?.length ?? 0;
+        if (this.collectionCachedLength !== currentLength) {
+          this.collectionCachedLength = currentLength;
+          return true;
+        }
+        return false;
+      }
+
+      const collection = collectionStore.GetCollection(
+        this.currentSettings.collectionData.collectionId
+      );
+      const currentLength = collection?.allApps?.length ?? 0;
+      if (this.collectionCachedLength !== currentLength) {
+        this.collectionCachedLength = currentLength;
         return true;
       }
+      return false;
+    } catch (e) {
+      return false;
     }
-
-    if (
-      this.collectionCachedLength !==
-      collectionStore.GetCollection(
-        this.currentSettings.collectionData.collectionId
-      ).allApps.length
-    ) {
-      this.collectionCachedLength = collectionStore.GetCollection(
-        this.currentSettings.collectionData.collectionId
-      ).allApps.length;
-      return true;
-    }
-
-    return false;
   }
 
   private getSortFunction(): (
