@@ -1,6 +1,6 @@
-import {
-  LifetimeNotification,
-} from "decky-frontend-lib";
+//import {
+//  LifetimeNotification,
+//} from "@decky/api";
 import { TbLayoutNavbarExpand } from "react-icons/tb";
 
 import { Settings } from "./app/settings";

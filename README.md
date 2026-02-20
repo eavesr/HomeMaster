@@ -9,7 +9,7 @@
 
 # Overview
 
-HomeMaster is a plugin for Decky Loader (a project which allows you to install plugins on the Steam Deck) which allows the user to select a 'Collection' of games from their Steam Library which will be used as the list for the home screen.
+HomeMaster is a plugin for Decky Loader which allows the user to select a 'Collection' of games from their Steam Library to be used as the list for the home screen.
 
 # Features
 
@@ -17,17 +17,17 @@ Features include:<br/>
 
 - Set any Steam collection as your home page
 - Show/Hide collection name
-- Modify your Home screen by making changes to collection inside of Library menu
-  
-# Using the plugin
-
-Once you have installed HomeMaster, open the configuration in the Quick Access Menu (QAM).
+- Sort the collection by a variety of options
 
 # Installation
 
 [Installation instructions here](HOW-TO-INSTALL.md)
 
 Uninstall the plugin via Decky and then restart Steam client
+
+# Using the plugin
+
+Once you have installed HomeMaster, open the configuration in the Quick Access Menu (QAM).
 
 # Contributing
 
@@ -41,4 +41,4 @@ If you're interested in fixing a bug, submitting a new feature, or just helping 
 
 This plugin was forked from [original work](https://github.com/maslomeister/HomeMaster) copyright Nikita Maslov (maslomeister)
 
-Intial idea, prototype and patching method by [Tormak9970](https://github.com/Tormak9970)
+Initial idea, prototype and patching method by [Tormak9970](https://github.com/Tormak9970)

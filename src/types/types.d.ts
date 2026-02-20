@@ -46,16 +46,18 @@ type Game = {
   name: string;
 };
 
-interface LifetimeNotification {
-  unAppID: number;
-  nInstanceID: string;
-  bRunning: boolean;
+declare global {
+  interface LifetimeNotification {
+    unAppID: number;
+    nInstanceID: string;
+    bRunning: boolean;
+  }
 }
 
-import "decky-frontend-lib"; // replace with the actual module name
+import "@decky/api"; // replace with the actual module name
 
 // Extend the WindowRouter interface within the module
-declare module "decky-frontend-lib" {
+declare module "@decky/api" {
   export interface WindowRouter {
     m_history?: {
       location: {
